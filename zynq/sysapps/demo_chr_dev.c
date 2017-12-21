@@ -17,7 +17,7 @@ static int chr_open(struct inode *nd, struct file *file){
 
 static ssize_t chr_read(struct file *fl, char __user *u, size_t sz, loff_t *off){
 	printk("In the chr_read() function!\n");
-	if (copy_to_user(u, "I am from kernel chr_read().\n", sz)){
+	if (copy_to_user(u, "I am from kernel driver.\n", 26)){
 		printk("copy_to_user maybe happened fault!\n");
 		return -EINVAL;
 	}
@@ -26,14 +26,14 @@ static ssize_t chr_read(struct file *fl, char __user *u, size_t sz, loff_t *off)
 }
 
 static ssize_t chr_write(struct file *fl, const char __user *u, size_t sz, loff_t *off){
-	char buf[33] = {0};
+	char buf[130] = {0};
 	
 	printk("In the chr_write() function!\n");
 	if (copy_from_user(buf, u, sz)){
 		printk("copy_from_user maybe happened fault!\n");
 		return -EINVAL;
 	}
-	printk("I am from user space \"%s\"", buf);
+	printk("\"%s\" am from user space\n ",buf);
 	return 0;
 }
 
